@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using Infima_Games.Low_Poly_Shooter_Pack___Free_Sample.Code.Legacy;
 using InfimaGames.LowPolyShooterPack;
