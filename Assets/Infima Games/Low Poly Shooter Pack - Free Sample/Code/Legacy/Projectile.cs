@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using Infima_Games.Low_Poly_Shooter_Pack___Free_Sample.Code.Legacy;
 using InfimaGames.LowPolyShooterPack;
 using Random = UnityEngine.Random;
 
@@ -66,77 +67,16 @@ public class Projectile : MonoBehaviour {
 			Destroy (gameObject);
 		}
 
-		//If bullet collides with "Blood" tag
-		if (collision.transform.tag == "Blood") 
+		if (collision.gameObject.TryGetComponent(out IHaveProjectileReaction reaction))
 		{
-			//Instantiate random impact prefab from array
-			Instantiate (bloodImpactPrefabs [Random.Range 
-				(0, bloodImpactPrefabs.Length)], transform.position, 
-				Quaternion.LookRotation (collision.contacts [0].normal));
-			//Destroy bullet object
-			Destroy(gameObject);
-		}
-
-		//If bullet collides with "Metal" tag
-		if (collision.transform.tag == "Metal") 
-		{
-			//Instantiate random impact prefab from array
-			Instantiate (metalImpactPrefabs [Random.Range 
-				(0, bloodImpactPrefabs.Length)], transform.position, 
-				Quaternion.LookRotation (collision.contacts [0].normal));
-			//Destroy bullet object
-			Destroy(gameObject);
-		}
-
-		//If bullet collides with "Dirt" tag
-		if (collision.transform.tag == "Dirt") 
-		{
-			//Instantiate random impact prefab from array
-			Instantiate (dirtImpactPrefabs [Random.Range 
-				(0, bloodImpactPrefabs.Length)], transform.position, 
-				Quaternion.LookRotation (collision.contacts [0].normal));
-			//Destroy bullet object
-			Destroy(gameObject);
-		}
-
-		//If bullet collides with "Concrete" tag
-		if (collision.transform.tag == "Concrete") 
-		{
-			//Instantiate random impact prefab from array
-			Instantiate (concreteImpactPrefabs [Random.Range 
-				(0, bloodImpactPrefabs.Length)], transform.position, 
-				Quaternion.LookRotation (collision.contacts [0].normal));
-			//Destroy bullet object
-			Destroy(gameObject);
-		}
-
-		//If bullet collides with "Target" tag
-		if (collision.transform.tag == "Target") 
-		{
-			//Toggle "isHit" on target object
-			collision.transform.gameObject.GetComponent
-				<TargetScript>().isHit = true;
-			//Destroy bullet object
-			Destroy(gameObject);
-		}
-			
-		//If bullet collides with "ExplosiveBarrel" tag
-		if (collision.transform.tag == "ExplosiveBarrel") 
-		{
-			//Toggle "explode" on explosive barrel object
-			collision.transform.gameObject.GetComponent
-				<ExplosiveBarrelScript>().explode = true;
-			//Destroy bullet object
-			Destroy(gameObject);
-		}
-
-		//If bullet collides with "GasTank" tag
-		if (collision.transform.tag == "GasTank") 
-		{
-			//Toggle "isHit" on gas tank object
-			collision.transform.gameObject.GetComponent
-				<GasTankScript> ().isHit = true;
-			//Destroy bullet object
+			if (reaction is IHaveProjectileReactionSurface surfaceReaction)
+			{
+				surfaceReaction.React(transform.position, Quaternion.LookRotation (collision.contacts [0].normal));
+			}
+			else
+			{
+				reaction.React();
+			}
 			Destroy(gameObject);
 		}
 	}

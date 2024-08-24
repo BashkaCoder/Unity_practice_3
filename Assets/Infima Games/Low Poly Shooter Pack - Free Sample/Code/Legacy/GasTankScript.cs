@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Infima_Games.Low_Poly_Shooter_Pack___Free_Sample.Code.Legacy;
 
-public class GasTankScript : MonoBehaviour {
+public class GasTankScript : MonoBehaviour, IHaveProjectileReaction {
 
 	float randomRotationValue;
 	float randomValue;
 
 	bool routineStarted = false;
+	bool rotationCoroutine;
 
 	//Used to check if the gas tank 
 	//has been hit
@@ -57,55 +59,7 @@ public class GasTankScript : MonoBehaviour {
 		//Get a random value for the rotation
 		randomValue = Random.Range (-50, 50);
 	}
-
-	private void Update () {
-		//If the gas tank is hit
-		if (isHit == true) 
-		{
-			//Start increasing the rotation speed over time
-			randomRotationValue += 1.0f * Time.deltaTime;
-
-			//If the random rotation is higher than the maximum rotation, 
-			//set it to the max rotation value
-			if (randomRotationValue > maxRotationSpeed) 
-			{
-				randomRotationValue = maxRotationSpeed;
-			}
-
-			//Add force to the gas tank 
-			gameObject.GetComponent<Rigidbody>().AddRelativeForce
-				(Vector3.down * moveSpeed * 50 *Time.deltaTime);
-
-			//Rotate the gas tank, based on the random rotation values
-			transform.Rotate (randomRotationValue,0,randomValue * 
-			                  rotationSpeed * Time.deltaTime); 
-
-			//Play the flame particles
-			flameParticles.Play ();
-			//Play the smoke particles
-			smokeParticles.Play ();
-
-			//Increase the flame sound pitch over time
-			flameSound.pitch += audioPitchIncrease * Time.deltaTime;
-
-			//If the audio has not played, play it
-			if (!audioHasPlayed) 
-			{
-				flameSound.Play ();
-				//Audio has played
-				audioHasPlayed = true;
-			}
-
-			if (routineStarted == false) 
-			{
-				//Start the explode coroutine
-				StartCoroutine(Explode());
-				routineStarted = true;
-				//Set the light intensity to 3
-				lightObject.intensity = 3;
-			}
-		}
-	}
+	
 	private void OnCollisionEnter (Collision collision) {
 		//Play the impact sound on every collision
 		impactSound.Play ();
@@ -131,16 +85,10 @@ public class GasTankScript : MonoBehaviour {
 			if (rb != null)
 				rb.AddExplosionForce (explosionForce * 50, explosionPos, explosionRadius);
 			
-			//If the gas tank explosion hits other gas tanks with the tag "GasTank"
-			if (hit.transform.tag == "GasTank") {
-				
-				//Toggle the isHit bool on the gas tank object
-				hit.transform.gameObject.GetComponent<GasTankScript>().isHit = true;
-			}
-			//If the gas tank explosion hits any explosive barrel
-			if (hit.transform.tag == "ExplosiveBarrel") {
-				//Toggle explode bool on explosive barrel object
-				hit.transform.gameObject.GetComponent<ExplosiveBarrelScript>().explode = true;
+			//Interact with other objects implementing IHaveProjectileReaction within radius
+			if (hit.TryGetComponent(out IHaveProjectileReaction reaction))
+			{
+				reaction.React();
 			}
 		}
 		
@@ -150,5 +98,64 @@ public class GasTankScript : MonoBehaviour {
 
 		//Destroy the current gas tank object
 		Destroy (gameObject);
+	}
+
+	private IEnumerator RotateGasTank()
+	{
+		while (true)
+		{
+			//Start increasing the rotation speed over time
+			randomRotationValue += 1.0f * Time.deltaTime;
+
+			//If the random rotation is higher than the maximum rotation, 
+			//set it to the max rotation value
+			if (randomRotationValue > maxRotationSpeed) 
+			{
+				randomRotationValue = maxRotationSpeed;
+			}
+
+			//Add force to the gas tank 
+			gameObject.GetComponent<Rigidbody>().AddRelativeForce
+				(Vector3.down * moveSpeed * 50 *Time.deltaTime);
+
+			//Rotate the gas tank, based on the random rotation values
+			transform.Rotate (randomRotationValue,0,randomValue * 
+			                                        rotationSpeed * Time.deltaTime); 
+
+			//Play the flame particles
+			flameParticles.Play ();
+			//Play the smoke particles
+			smokeParticles.Play ();
+
+			//Increase the flame sound pitch over time
+			flameSound.pitch += audioPitchIncrease * Time.deltaTime;
+
+			//If the audio has not played, play it
+			if (!audioHasPlayed) 
+			{
+				flameSound.Play ();
+				//Audio has played
+				audioHasPlayed = true;
+			}
+
+			if (routineStarted == false) 
+			{
+				//Start the explode coroutine
+				StartCoroutine(Explode());
+				routineStarted = true;
+				//Set the light intensity to 3
+				lightObject.intensity = 3;
+			}
+			yield return null;
+		}
+	}
+	
+	public void React()
+	{
+		if (rotationCoroutine == false)
+		{
+			rotationCoroutine = true;
+			StartCoroutine(RotateGasTank());
+		}
 	}
 }

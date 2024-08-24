@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Infima_Games.Low_Poly_Shooter_Pack___Free_Sample.Code.Legacy;
 
-public class TargetScript : MonoBehaviour {
+public class TargetScript : MonoBehaviour, IHaveProjectileReaction {
 
 	float randomTime;
 	bool routineStarted = false;
@@ -25,32 +26,6 @@ public class TargetScript : MonoBehaviour {
 
 	public AudioSource audioSource;
 	
-	private void Update () {
-		
-		//Generate random time based on min and max time values
-		randomTime = Random.Range (minTime, maxTime);
-
-		//If the target is hit
-		if (isHit == true) 
-		{
-			if (routineStarted == false) 
-			{
-				//Animate the target "down"
-				gameObject.GetComponent<Animation>().clip = targetDown;
-				gameObject.GetComponent<Animation>().Play();
-
-				//Set the downSound as current sound, and play it
-				audioSource.GetComponent<AudioSource>().clip = downSound;
-				audioSource.Play();
-
-				//Start the timer
-				StartCoroutine(DelayTimer());
-				routineStarted = true;
-			} 
-		}
-	}
-
-	//Time before the target pops back up
 	private IEnumerator DelayTimer () {
 		//Wait for random amount of time
 		yield return new WaitForSeconds(randomTime);
@@ -65,5 +40,25 @@ public class TargetScript : MonoBehaviour {
 		//Target is no longer hit
 		isHit = false;
 		routineStarted = false;
+	}
+
+	public void React()
+	{
+		//Time before the target pops back up
+		randomTime = Random.Range (minTime, maxTime);
+		if (routineStarted == false) 
+		{
+			//Animate the target "down"
+			gameObject.GetComponent<Animation>().clip = targetDown;
+			gameObject.GetComponent<Animation>().Play();
+
+			//Set the downSound as current sound, and play it
+			audioSource.GetComponent<AudioSource>().clip = downSound;
+			audioSource.Play();
+
+			//Start the timer
+			StartCoroutine(DelayTimer());
+			routineStarted = true;
+		}
 	}
 }
