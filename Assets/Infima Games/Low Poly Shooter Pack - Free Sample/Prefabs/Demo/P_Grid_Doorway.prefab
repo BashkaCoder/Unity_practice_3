@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 94113596248578912}
   - component: {fileID: 94113596248578943}
   - component: {fileID: 94113596248578942}
-  - component: {fileID: 3108859816032633026}
+  - component: {fileID: 5671054875018005263}
   m_Layer: 0
   m_Name: Wall 2x2.5
   m_TagString: Concrete
@@ -106,7 +106,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3108859816032633026
+--- !u!114 &5671054875018005263
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 94113596248578941}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336df21c49b27204c86dd3715c361513, type: 3}
+  m_Script: {fileID: 11500000, guid: 138be7893f0aba04aa5552c996ca8fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _impactPrefabs:
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 94113596363782608}
   - component: {fileID: 94113596363782639}
   - component: {fileID: 94113596363782638}
-  - component: {fileID: 1633743385012655424}
+  - component: {fileID: 4463190695224777889}
   m_Layer: 0
   m_Name: Wall 4x5
   m_TagString: Concrete
@@ -226,7 +226,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1633743385012655424
+--- !u!114 &4463190695224777889
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 94113596363782637}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336df21c49b27204c86dd3715c361513, type: 3}
+  m_Script: {fileID: 11500000, guid: 138be7893f0aba04aa5552c996ca8fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _impactPrefabs:
@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 94113596496072244}
   - component: {fileID: 94113596496072243}
   - component: {fileID: 94113596496072242}
-  - component: {fileID: 3598352942639202875}
+  - component: {fileID: 2179790462375852117}
   m_Layer: 0
   m_Name: Wall 4x5
   m_TagString: Concrete
@@ -383,7 +383,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3598352942639202875
+--- !u!114 &2179790462375852117
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -392,7 +392,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 94113596496072241}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 336df21c49b27204c86dd3715c361513, type: 3}
+  m_Script: {fileID: 11500000, guid: 138be7893f0aba04aa5552c996ca8fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _impactPrefabs:
