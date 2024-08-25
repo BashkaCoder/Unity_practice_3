@@ -8,7 +8,7 @@ public class UnityLogger
    {
 	Debug.Log(message);
    }
-	
+   
    public void LogCollection(IEnumerable<string> strings)
    {
       foreach (string str in strings)
